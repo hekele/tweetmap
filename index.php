@@ -36,9 +36,7 @@ if(!empty($twitter_json->statuses)){
 
   // store geotagged tweets 
   foreach($twitter_json->statuses as $tweet){
-    if(!empty($tweet->coordinates) || !empty($tweet->place)){
-      file_put_contents($project_path."/tweets/".$tweet->id.".json", json_encode($tweet, JSON_PRETTY_PRINT));
-    }
+    file_put_contents($project_path."/tweets/".$tweet->id.".json", json_encode($tweet, JSON_PRETTY_PRINT));
   }
 
   // store since id for next run
@@ -79,7 +77,7 @@ foreach($a_tweet_ids as $tweet_id){
       $geocode = "cdb_geocode_street_point('".$tweet_json->place->name."', 'Berlin', 'Germany')";
     }
     else{
-      print "No coordinates found!";
+      print "No coordinates found in https://twitter.com/".$tweet_json->user->screen_name."/status/".$tweet_id."\n";
       continue;
     }
 
@@ -98,7 +96,7 @@ foreach($a_tweet_ids as $tweet_id){
         '".date("Y-m-d H:i:s", strtotime($tweet_json->created_at))."'
         )";
     $carto_json = json_decode(file_get_contents($carto_api_url.rawurlencode($sql)));
-    print_r($carto_json);
+    print "Added https://twitter.com/".$tweet_json->user->screen_name."/status/".$tweet_id."\n";
   }
   
 }
