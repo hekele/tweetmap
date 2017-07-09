@@ -88,15 +88,15 @@ foreach($a_tweet_ids as $tweet_id){
 
     // insert into carto
     $sql = "INSERT INTO ".$carto_api_db_name." (the_geom, tweet, tweet_id, tweet_image, user_id, user_name, created_at) 
-  			VALUES (
+        VALUES (
         ".$geocode.",
-  			'".$tweet_json->text."',
+        '".$tweet_json->text."',
         '".$tweet_id."',
-  			'".$tweet_media."',
-  			".$tweet_json->user->id.",
-  			'".$tweet_json->user->screen_name."',
-  			'".date("Y-m-d H:i:s", strtotime($tweet_json->created_at))."'
-  			)";
+        '".$tweet_media."',
+        ".$tweet_json->user->id.",
+        '".$tweet_json->user->screen_name."',
+        '".date("Y-m-d H:i:s", strtotime($tweet_json->created_at))."'
+        )";
     $carto_json = json_decode(file_get_contents($carto_api_url.rawurlencode($sql)));
     print_r($carto_json);
   }
